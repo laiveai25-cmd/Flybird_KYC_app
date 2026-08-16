@@ -26,7 +26,8 @@
     --page:#F4EEE4; --surface:#FAF5EF; --ink:#001155; --muted:#4d5a91; --faint:#b3b8cd;
     --hair:#f1ebe1; --cream-dim:rgba(250,245,239,.62); --cream-low:rgba(250,245,239,.14);
     /* severity ramp (deep-blue darkness) consumed by JS scoreColor() — no traffic-light hues */
-    --clear:#b3b8cd; --escal:#4d5a91; --decline:#001155;
+    --clear:#4d5a91; --escal:#D9682A; --decline:#C0392B;
+    --amber:#E29A2E; --orange:#D9682A; --red:#C0392B;
     /* type */
     --brand:'Outfit','Helvetica Neue',system-ui,sans-serif;
     --mono:'JetBrains Mono','SFMono-Regular',Menlo,Consolas,monospace;
@@ -82,9 +83,9 @@
   .ann .v{font-family:var(--brand);font-size:38px;font-weight:300;line-height:1.05;margin-top:8px;letter-spacing:.01em;color:var(--ink)}
   .ann .lamp{position:absolute;top:18px;right:18px;width:10px;height:10px;border-radius:2px}
   .lamp-clear{background:var(--cyan)}
-  .lamp-review{background:var(--deep-30)}
-  .lamp-escal{background:var(--deep-70)}
-  .lamp-decline{background:var(--deep)}
+  .lamp-review{background:var(--amber)}
+  .lamp-escal{background:var(--orange)}
+  .lamp-decline{background:var(--red)}
 
   .card{background:var(--surface);border:1px solid var(--hair);border-radius:12px;box-shadow:var(--shadow)}
   .card-h{padding:17px 20px;border-bottom:1px solid var(--hair);display:flex;align-items:center;justify-content:space-between}
@@ -104,9 +105,9 @@
   .pill{display:inline-flex;align-items:center;gap:6px;padding:4px 11px;border-radius:6px;font-size:10.5px;font-weight:400;font-family:var(--brand);letter-spacing:.1em;text-transform:uppercase;white-space:nowrap}
   .pill .dot{display:none}
   .p-clear{background:var(--cyan);color:var(--deep)}
-  .p-review{background:var(--deep-08);color:var(--muted);box-shadow:inset 0 0 0 1px var(--deep-16)}
-  .p-escal{background:var(--deep-70);color:var(--cream)}
-  .p-decline{background:var(--deep);color:var(--cream)}
+  .p-review{background:var(--amber);color:var(--deep)}
+  .p-escal{background:var(--orange);color:var(--cream)}
+  .p-decline{background:var(--red);color:var(--cream)}
 
   .section-lbl{font-family:var(--brand);font-weight:300;font-size:11px;letter-spacing:var(--eyebrow);text-transform:uppercase;color:var(--ink);margin:28px 0 14px;display:flex;align-items:center;gap:10px}
   .section-lbl::before{content:"";width:18px;height:2px;background:var(--cyan)}
@@ -176,7 +177,7 @@
   .seg{display:inline-flex;border:1px solid var(--deep-16);border-radius:8px;overflow:hidden}
   .seg button{padding:8px 13px;background:var(--surface);border:none;font-size:12px;font-weight:400;color:var(--muted)}
   .seg button.on-fp{background:var(--cyan);color:var(--deep)}
-  .seg button.on-tp{background:var(--deep);color:var(--cream)}
+  .seg button.on-tp{background:var(--red);color:var(--cream)}
   .adjud .stamp{font-family:var(--mono);font-size:10.5px;color:var(--muted);margin-left:auto;font-weight:400}
 
   .tier2{margin:8px 20px 18px;background:var(--cyan-30);border:1px dashed var(--cyan-60);border-radius:10px;padding:14px 16px}
@@ -194,8 +195,8 @@
   .dchip{border:1px solid var(--cream-low);background:rgba(255,255,255,.04);color:var(--cream);padding:11px 18px;border-radius:10px;font-weight:400;font-size:13px;display:flex;align-items:center;gap:8px;letter-spacing:.02em}
   .dchip .dot{width:8px;height:8px;border-radius:2px}
   .dchip.sel-clear{background:var(--cyan);color:var(--deep);border-color:var(--cyan)}
-  .dchip.sel-escal{background:var(--deep-30);color:var(--deep);border-color:var(--deep-30)}
-  .dchip.sel-decline{background:var(--cream);color:var(--deep);border-color:var(--cream)}
+  .dchip.sel-escal{background:var(--orange);color:var(--cream);border-color:var(--orange)}
+  .dchip.sel-decline{background:var(--red);color:var(--cream);border-color:var(--red)}
   .dispo textarea{width:100%;background:rgba(0,0,0,.22);border:1px solid var(--cream-low);border-radius:9px;color:var(--cream);padding:11px 13px;font-family:var(--brand);font-size:13px;font-weight:300;resize:vertical;min-height:64px}
   .dispo textarea::placeholder{color:rgba(250,245,239,.5)}
   .dispo .foot{display:flex;justify-content:space-between;align-items:center;margin-top:14px;gap:14px;flex-wrap:wrap}
@@ -584,8 +585,8 @@ function renderReview(id){
       <p>Set the overall disposition once every party's hits are reviewed. This is logged to the audit trail.</p>
       <div class="choices">
         <div class="dchip ${dsel==='sel-clear'?'sel-clear':''}" onclick="pickDispo(this,'clear')"><span class="dot" style="background:var(--cyan)"></span>Clear</div>
-        <div class="dchip ${dsel==='sel-escal'?'sel-escal':''}" onclick="pickDispo(this,'escal')"><span class="dot" style="background:var(--deep-30)"></span>Escalate</div>
-        <div class="dchip ${dsel==='sel-decline'?'sel-decline':''}" onclick="pickDispo(this,'decline')"><span class="dot" style="background:var(--cream)"></span>Decline</div>
+        <div class="dchip ${dsel==='sel-escal'?'sel-escal':''}" onclick="pickDispo(this,'escal')"><span class="dot" style="background:var(--orange)"></span>Escalate</div>
+        <div class="dchip ${dsel==='sel-decline'?'sel-decline':''}" onclick="pickDispo(this,'decline')"><span class="dot" style="background:var(--red)"></span>Decline</div>
       </div>
       <textarea placeholder="Reviewer notes (rationale, EDD performed, references checked)…"></textarea>
       <div class="foot">
