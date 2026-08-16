@@ -13,7 +13,7 @@
 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
     --navy:#0F1B3D; --navy-deep:#071A5A; --blue:#003B73;
@@ -25,9 +25,9 @@
     --review:#B98A17; --review-bg:#FaF3DF;
     --escal:#E08A34; --escal-bg:#FBEBDA;
     --decline:#B23A3A; --decline-bg:#F6E4E2;
-    --display:'Fraunces',Georgia,serif;
-    --body:'Inter',system-ui,sans-serif;
-    --mono:'Space Mono','SFMono-Regular',Menlo,Consolas,monospace;
+    --display:'IBM Plex Serif',Georgia,serif;
+    --body:'IBM Plex Sans',system-ui,sans-serif;
+    --mono:'IBM Plex Mono','SFMono-Regular',Menlo,Consolas,monospace;
     --shadow:0 1px 2px rgba(15,27,61,.06),0 8px 24px rgba(15,27,61,.06);
   }
   *{box-sizing:border-box}
@@ -41,7 +41,7 @@
   .side{background:var(--navy);color:#EDEFF6;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;border-right:1px solid var(--navy-deep)}
   .brand{padding:22px 20px 16px;border-bottom:1px solid var(--hair-navy)}
   .brand .mark{display:flex;align-items:center;gap:10px}
-  .brand .glyph{width:30px;height:30px;border:1.5px solid var(--gold);border-radius:6px;display:grid;place-items:center;color:var(--gold);font-family:var(--mono);font-weight:700;font-size:13px}
+  .brand .glyph{width:30px;height:30px;border:1.5px solid var(--gold);border-radius:6px;display:grid;place-items:center;color:var(--gold);font-family:var(--mono);font-weight:600;font-size:13px}
   .brand .name{font-family:var(--display);font-weight:600;font-size:16px;letter-spacing:.2px;line-height:1}
   .brand .sub{font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-top:5px}
   /* altimeter-tape motif */
@@ -52,9 +52,9 @@
 
   .nav{padding:14px 12px;flex:1}
   .nav .lbl{font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:#8892b8;padding:6px 10px 8px}
-  .nav a{display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:8px;color:#D6DAEA;font-size:13.5px;font-weight:500;text-decoration:none;margin-bottom:2px;transition:background .12s}
+  .nav a{display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:8px;color:#D6DAEA;font-size:13.5px;font-weight:400;text-decoration:none;margin-bottom:2px;transition:background .12s}
   .nav a:hover{background:rgba(255,255,255,.05)}
-  .nav a.active{background:var(--navy-deep);color:#fff;box-shadow:inset 2px 0 0 var(--gold)}
+  .nav a.active{background:var(--navy-deep);color:#fff;font-weight:600;box-shadow:inset 2px 0 0 var(--gold)}
   .nav a svg{width:17px;height:17px;opacity:.9;flex:none}
   .who{padding:14px 16px;border-top:1px solid var(--hair-navy);display:flex;align-items:center;gap:10px}
   .who .av{width:32px;height:32px;border-radius:50%;background:var(--gold);color:var(--navy);display:grid;place-items:center;font-weight:700;font-size:13px}
@@ -65,7 +65,7 @@
   .main{min-width:0}
   .topbar{background:var(--paper);border-bottom:1px solid var(--hair);padding:16px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:5}
   .topbar h1{font-family:var(--display);font-weight:600;font-size:21px;margin:0;letter-spacing:.1px}
-  .topbar .crumb{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
+  .topbar .crumb{font-family:var(--body);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
   .btn{border:1px solid var(--navy);background:var(--navy);color:#fff;padding:9px 16px;border-radius:8px;font-size:13px;font-weight:600;display:inline-flex;align-items:center;gap:8px}
   .btn:hover{background:var(--navy-deep)}
   .btn.ghost{background:transparent;color:var(--navy);border-color:var(--hair)}
@@ -78,7 +78,7 @@
   /* ---------- Annunciator stat row ---------- */
   .annrow{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:26px}
   .ann{background:var(--paper);border:1px solid var(--hair);border-radius:12px;padding:16px 18px;box-shadow:var(--shadow);position:relative;overflow:hidden}
-  .ann .k{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .ann .k{font-family:var(--body);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
   .ann .v{font-family:var(--display);font-size:32px;font-weight:600;line-height:1.1;margin-top:6px}
   .ann .lamp{position:absolute;top:16px;right:16px;width:9px;height:9px;border-radius:50%}
   .lamp-clear{background:var(--clear);box-shadow:0 0 0 4px var(--clear-bg)}
@@ -89,10 +89,10 @@
   /* ---------- Card / table ---------- */
   .card{background:var(--paper);border:1px solid var(--hair);border-radius:12px;box-shadow:var(--shadow)}
   .card-h{padding:16px 20px;border-bottom:1px solid var(--hair);display:flex;align-items:center;justify-content:space-between}
-  .card-h h2{font-family:var(--display);font-size:16px;font-weight:600;margin:0}
+  .card-h h2{font-family:var(--body);font-size:16px;font-weight:600;margin:0}
   .card-h .hint{font-size:12px;color:var(--muted)}
   table{width:100%;border-collapse:collapse}
-  thead th{text-align:left;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:12px 20px;border-bottom:1px solid var(--hair);font-weight:400}
+  thead th{text-align:left;font-family:var(--body);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:12px 20px;border-bottom:1px solid var(--hair);font-weight:400}
   tbody td{padding:14px 20px;border-bottom:1px solid var(--cream);font-size:13.5px;vertical-align:middle}
   tbody tr{cursor:pointer;transition:background .1s}
   tbody tr:hover{background:#FCFAF6}
@@ -482,7 +482,7 @@ function renderQueue(){
     const c=CASES[id];
     return `<tr onclick="go('review','${id}')">
       <td><span class="cid">${c.id}</span></td>
-      <td><div class="pname">${c.subject}</div><div class="sub">Booking ${c.booking}</div></td>
+      <td><div class="pname">${c.subject}</div><div class="sub" style="font-family:var(--mono);font-size:11px">Booking ${c.booking}</div></td>
       <td class="mono">${c.route}</td>
       <td class="mono">${c.parties}</td>
       <td><span class="mono" style="color:${scoreColor(c.top)};font-weight:700">${c.top}</span></td>
