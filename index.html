@@ -223,6 +223,24 @@
   }
   .menu-btn{display:none;place-items:center;width:38px;height:38px;border:1px solid var(--deep-16);border-radius:8px;background:var(--surface)}
   .foot-disc{margin-top:34px;padding-top:16px;border-top:1px solid var(--hair);font-size:11px;color:var(--faint);font-family:var(--mono);letter-spacing:.02em}
+  .consent-note{margin-top:22px;display:flex;gap:10px;align-items:flex-start;background:var(--deep-08);border:1px solid var(--hair);border-radius:10px;padding:12px 16px}
+  .consent-note svg{flex:none;margin-top:2px}
+  .consent-note p{margin:0;font-size:12px;color:var(--muted);line-height:var(--lh-body);font-weight:300}
+  .rev-actions{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap}
+  .print-only{display:none}
+  .print-head{font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--deep);padding-bottom:10px;margin-bottom:14px;border-bottom:2px solid var(--deep)}
+  @media print{
+    @page{margin:15mm}
+    .side,.topbar,.menu-btn,.foot-disc,.seg,.btn{display:none!important}
+    .app{display:block}.main{min-width:0}.wrap{max-width:none;padding:0}
+    .view{display:none!important}.view.active{display:block!important}
+    .print-only{display:block!important}
+    body{background:#fff}
+    *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .party,.card,.dispo,.hit{break-inside:avoid}
+    .party,.card,.dispo{box-shadow:none}
+    .dispo textarea{display:none}
+  }
 
 </style>
 </head>
@@ -310,7 +328,7 @@
       <div class="wrap">
         <div class="banner">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#001155" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
-          <span>Screening runs against sanctions, PEP and Interpol lists. A match is a <b>candidate</b>, not a verdict — every hit is reviewed by you before a decision is recorded.</span>
+          <span>Screening runs against sanctions, PEP and Interpol lists. A match is a <b>candidate</b>, not a verdict — every hit is reviewed by the Compliance Officer before a decision is recorded.</span>
         </div>
 
         <div class="card"><div style="padding:22px 24px">
@@ -334,6 +352,10 @@
           <div class="section-lbl">Additional passengers</div>
           <div id="companions"></div>
           <div class="addrow"><button class="add-btn" onclick="addCompanion()">+ Add passenger to this booking</button></div>
+
+          <div class="section-lbl">Operating crew</div>
+          <div id="crew"></div>
+          <div class="addrow"><button class="add-btn" onclick="addCrew()">+ Add crew member (pilot or cabin crew)</button></div>
 
           <div class="section-lbl">Section 2 — Charter details</div>
           <div class="grid3">
@@ -383,9 +405,16 @@
             <div class="fld"><label>Bank / country</label><input/></div>
           </div>
 
-          <div class="consent">
-            <input type="checkbox" id="consent"/>
-            <p><b>Screening &amp; data-processing consent.</b> The named parties consent to Flybird processing their personal data — including checks against international sanctions, PEP and watchlists — for the purpose of charter compliance, in line with the Nigeria Data Protection Act 2023. <span style="color:var(--muted)">(Placeholder wording — to be finalised by counsel.)</span></p>
+          <div class="section-lbl">Section 4 — Prepared by</div>
+          <div class="grid3">
+            <div class="fld"><label>Staff name <span class="req">*</span></label><input placeholder="Person completing this form"/></div>
+            <div class="fld"><label>Staff ID</label><input class="mono"/></div>
+            <div class="fld"><label>Date</label><input type="date"/></div>
+          </div>
+
+          <div class="consent-note">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#001155" stroke-width="1.8"><path d="M20 6 9 17l-5-5"/></svg>
+            <p>Screening consent is captured at booking by the Sales team and recorded against the booking reference — not collected here.</p>
           </div>
 
           <div class="formfoot">
@@ -562,7 +591,11 @@ function renderReview(id){
 
   const dsel = c.status==='clear'?'sel-clear':c.status==='escal'?'sel-escal':c.status==='decline'?'sel-decline':'';
   document.getElementById('review-wrap').innerHTML = `
-    <button class="btn ghost" data-go="dashboard" style="margin-bottom:18px">← Back to queue</button>
+    <div class="print-head print-only">FLYBIRD · COMPLIANCE SCREENING — CASE ${c.id}</div>
+    <div class="rev-actions">
+      <button class="btn ghost" data-go="dashboard">← Back to queue</button>
+      <button class="btn" onclick="window.print()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>Download PDF</button>
+    </div>
     <div class="rev-head">
       <div>
         <div class="crumb" style="margin-bottom:4px">Case review</div>
@@ -573,6 +606,7 @@ function renderReview(id){
         <div class="mono"><small>Booking</small><b>${c.booking}</b></div>
         <div><small>Route</small><b class="mono">${c.route}</b></div>
         <div><small>Status</small>${pill(c.status)}</div>
+        <div><small>Consent</small><b>On file · booking</b></div>
       </div>
     </div>
 
@@ -622,6 +656,17 @@ function addCompanion(){
       <div class="fld"><label>Nationality</label><input/></div>
     </div>`;
   document.getElementById('companions').appendChild(div);
+}
+function addCrew(){
+  const div=document.createElement('div');
+  div.className='companion';
+  div.innerHTML=`<button class="rm" onclick="this.parentElement.remove()" title="Remove">×</button>
+    <div class="grid3">
+      <div class="fld"><label>Full name</label><input placeholder="Crew member"/></div>
+      <div class="fld"><label>Role</label><select><option>Captain</option><option>First Officer</option><option>Cabin crew</option></select></div>
+      <div class="fld"><label>License No. / Staff ID</label><input class="mono"/></div>
+    </div>`;
+  document.getElementById('crew').appendChild(div);
 }
 function setPayer(kind,btn){
   btn.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('on'));btn.classList.add('on');
