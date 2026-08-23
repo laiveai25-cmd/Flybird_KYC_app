@@ -319,7 +319,7 @@
             <tbody id="queue-body"></tbody>
           </table>
         </div>
-        <div class="foot-disc">...</div>
+        <div class="foot-disc">// prototype · fictional data · no network calls · not production code</div>
       </div>
     </section>
 
@@ -352,10 +352,6 @@
           <div class="section-lbl">Additional passengers</div>
           <div id="companions"></div>
           <div class="addrow"><button class="add-btn" onclick="addCompanion()">+ Add passenger to this booking</button></div>
-
-          <div class="section-lbl">Operating crew</div>
-          <div id="crew"></div>
-          <div class="addrow"><button class="add-btn" onclick="addCrew()">+ Add crew member (pilot or cabin crew)</button></div>
 
           <div class="section-lbl">Section 2 — Charter details</div>
           <div class="grid3">
@@ -422,7 +418,7 @@
             <button class="btn gold" onclick="go('review','FBD-2453')">Run screening →</button>
           </div>
         </div></div>
-        <div class="foot-disc">...</div>
+        <div class="foot-disc">// prototype · fictional data · no network calls · not production code</div>
       </div>
     </section>
 
@@ -445,7 +441,7 @@
             <tbody id="history-body"></tbody>
           </table>
         </div>
-        <div class="foot-disc">...</div>
+        <div class="foot-disc">// read-only audit view · fictional data</div>
       </div>
     </section>
   </main>
@@ -656,17 +652,6 @@ function addCompanion(){
       <div class="fld"><label>Nationality</label><input/></div>
     </div>`;
   document.getElementById('companions').appendChild(div);
-}
-function addCrew(){
-  const div=document.createElement('div');
-  div.className='companion';
-  div.innerHTML=`<button class="rm" onclick="this.parentElement.remove()" title="Remove">×</button>
-    <div class="grid3">
-      <div class="fld"><label>Full name</label><input placeholder="Crew member"/></div>
-      <div class="fld"><label>Role</label><select><option>Captain</option><option>First Officer</option><option>Cabin crew</option></select></div>
-      <div class="fld"><label>License No. / Staff ID</label><input class="mono"/></div>
-    </div>`;
-  document.getElementById('crew').appendChild(div);
 }
 function setPayer(kind,btn){
   btn.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('on'));btn.classList.add('on');
