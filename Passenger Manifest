@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Flybird · Passenger Manifest</title>
+<!-- LOOK-AND-FEEL PROTOTYPE. Fictional data, no backend, no network calls. Access (OCC / CEO / DMD) is enforced server-side in production. Best on desktop or mobile landscape. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --deep:#001155; --cyan:#9DE7D7; --cream:#FAF5EF;
+    --deep-90:#1a2a6a; --deep-70:#4d5a91; --deep-30:#b3b8cd;
+    --deep-08:rgba(0,17,85,.08); --deep-16:rgba(0,17,85,.16);
+    --cyan-30:#e2f7f1; --cyan-60:#c4f0e6; --cream-warm:#f1ebe1;
+    --page:#F4EEE4; --surface:#FAF5EF; --ink:#001155; --muted:#4d5a91; --faint:#b3b8cd; --hair:#f1ebe1;
+    --brand:'Outfit','Helvetica Neue',system-ui,sans-serif;
+    --mono:'JetBrains Mono','SFMono-Regular',Menlo,monospace;
+    --shadow:0 1px 2px rgba(0,17,85,.05),0 10px 30px rgba(0,17,85,.06);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{font-family:var(--brand);font-weight:300;color:var(--ink);background:var(--page);-webkit-font-smoothing:antialiased;line-height:1.5}
+  button{font-family:inherit;cursor:pointer}
+  .topbar{background:var(--deep);color:var(--cream);padding:16px 32px;display:flex;align-items:center;justify-content:space-between;gap:16px;position:sticky;top:0;z-index:5}
+  .brandmark{display:flex;align-items:center;gap:12px}
+  .brandmark .glyph{width:32px;height:32px;border:1px solid var(--cyan);border-radius:7px;display:grid;place-items:center;color:var(--cyan);font-family:var(--mono);font-weight:500;font-size:12px}
+  .brandmark .name{font-weight:300;font-size:19px;letter-spacing:.07em;text-transform:uppercase;line-height:1}
+  .brandmark .sub{font-weight:300;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--cyan);margin-top:5px}
+  .rolechip{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;background:rgba(157,231,215,.14);color:var(--cyan);border:1px solid rgba(157,231,215,.3);padding:6px 12px;border-radius:20px}
+  .btn{border:1px solid var(--cyan);background:var(--cyan);color:var(--deep);padding:10px 17px;border-radius:8px;font-size:13px;font-weight:500;display:inline-flex;align-items:center;gap:8px;letter-spacing:.02em}
+  .btn:hover{background:var(--cyan-60)}
+  .btn.ghost{background:transparent;color:var(--cream);border-color:rgba(250,245,239,.3)}
+  .btn.ghost:hover{background:rgba(255,255,255,.06)}
+
+  .wrap{max-width:1080px;margin:0 auto;padding:30px 32px 70px}
+  .doc-title{font-weight:300;font-size:30px;letter-spacing:.005em;margin:0 0 4px}
+  .doc-sub{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:26px}
+
+  .card{background:var(--surface);border:1px solid var(--hair);border-radius:12px;box-shadow:var(--shadow);padding:24px}
+  .seclbl{font-weight:700;font-size:14px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);margin:0 0 16px;display:flex;align-items:center;gap:12px}
+  .seclbl::before{content:"";width:22px;height:2px;background:var(--cyan)}
+  .seclbl.mt{margin-top:32px}
+  .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px 20px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px 20px}
+  .fld label{display:block;font-size:12px;font-weight:400;color:var(--muted);margin-bottom:6px}
+  .fld input,.fld select{width:100%;padding:10px 12px;border:1px solid var(--deep-16);border-radius:8px;font-size:13px;font-family:var(--brand);font-weight:300;background:var(--surface);color:var(--ink)}
+  .fld input.mono{font-family:var(--mono)}
+  .fld input:focus,.fld select:focus{outline:2px solid var(--cyan);border-color:var(--cyan)}
+  .fld input::placeholder{color:var(--faint)}
+  .toggle{display:inline-flex;border:1px solid var(--deep-16);border-radius:8px;overflow:hidden}
+  .toggle button{padding:9px 18px;background:var(--surface);border:none;font-size:12.5px;font-weight:400;color:var(--muted)}
+  .toggle button.on{background:var(--deep);color:var(--cream)}
+
+  table{width:100%;border-collapse:collapse;margin-top:4px}
+  th{text-align:left;font-family:var(--brand);font-weight:400;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:8px 10px;border-bottom:1.5px solid var(--deep)}
+  td{padding:5px 6px;border-bottom:1px solid var(--cream-warm);vertical-align:middle}
+  td.no{font-family:var(--mono);font-size:12px;color:var(--muted);text-align:center;width:44px}
+  td input,td select{width:100%;padding:8px 9px;border:1px solid transparent;border-radius:6px;font-size:13px;font-family:var(--brand);font-weight:300;background:transparent;color:var(--ink)}
+  td input.mono{font-family:var(--mono)}
+  td input:hover,td select:hover{background:var(--deep-08)}
+  td input:focus,td select:focus{outline:2px solid var(--cyan);background:var(--surface)}
+  td input::placeholder{color:var(--faint)}
+  td.act{width:40px;text-align:center}
+  .rm{background:none;border:none;color:var(--faint);font-size:18px;line-height:1}
+  .rm:hover{color:#C0392B}
+  .add-btn{margin-top:12px;background:transparent;border:1px dashed var(--deep-16);color:var(--deep);padding:10px 14px;border-radius:8px;font-size:12.5px;font-weight:400;width:100%}
+  .add-btn:hover{border-color:var(--cyan);background:var(--cyan-30)}
+  .cabin-tag{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);text-align:right;margin-top:8px}
+
+  .print-only{display:none}
+  .print-head{display:none}
+  @media print{
+    @page{margin:14mm}
+    .topbar,.doc-sub,.add-btn,.rm,td.act,th.act{display:none!important}
+    body{background:#fff}
+    .wrap{max-width:none;padding:0}
+    .card{border:none;box-shadow:none;padding:0}
+    *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    td input,td select,.fld input,.fld select{border-color:transparent;background:transparent}
+    .print-head{display:block;border-bottom:2px solid var(--deep);padding-bottom:12px;margin-bottom:18px}
+    .print-head .ph-row{display:flex;justify-content:space-between;align-items:flex-start}
+    .print-head .ph-co{font-weight:700;font-size:15px}
+    .print-head .ph-addr{font-size:11px;color:var(--muted);margin-top:2px;line-height:1.4}
+    .print-head .ph-title{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;background:var(--deep);color:#fff;padding:4px 10px;border-radius:4px;margin-top:10px;display:inline-block}
+    .doc-title{display:none}
+    .seclbl{page-break-after:avoid}
+    tr{page-break-inside:avoid}
+  }
+  @media(max-width:820px){.grid3,.grid2{grid-template-columns:1fr}.wrap{padding:22px 18px 60px}}
+</style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="brandmark">
+      <div class="glyph">FB</div>
+      <div><div class="name">Flybird</div><div class="sub">Operations Control Centre</div></div>
+    </div>
+    <div style="display:flex;align-items:center;gap:14px">
+      <span class="rolechip">OCC · CEO · DMD</span>
+      <button class="btn" onclick="window.print()">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+        Save &amp; download PDF
+      </button>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <!-- print-only official header -->
+    <div class="print-head">
+      <div class="ph-row">
+        <div>
+          <div class="ph-co">Flybird Aircraft Management Services Limited</div>
+          <div class="ph-addr">No. 2 Kokoma Street, Wuse 2, FCT Abuja<br>+234 815 555 9767 · +234 803 308 1420</div>
+          <span class="ph-title">Passenger Manifest</span>
+        </div>
+        <div style="text-align:right;font-family:var(--mono);font-size:12px;color:var(--muted)">No. <span id="ph-no">0451</span></div>
+      </div>
+    </div>
+
+    <h1 class="doc-title">Passenger Manifest</h1>
+    <div class="doc-sub">Operations Control Centre · fill and export as PDF</div>
+
+    <div class="card">
+      <div class="seclbl">Flight details</div>
+      <div class="grid3">
+        <div class="fld"><label>Manifest No.</label><input class="mono" value="0451" oninput="document.getElementById('ph-no').textContent=this.value"/></div>
+        <div class="fld"><label>Aircraft registration</label><input class="mono" placeholder="5N-…"/></div>
+        <div class="fld"><label>Operator</label><input placeholder="Flybird Aircraft Management Services Ltd"/></div>
+        <div class="fld"><label>Operator address</label><input placeholder="No. 2 Kokoma Street, Wuse 2, Abuja"/></div>
+        <div class="fld"><label>Route</label><input placeholder="DNAA → DGAA"/></div>
+        <div class="fld"><label>Departure time</label><input placeholder="e.g. 09:30"/></div>
+        <div class="fld"><label>Date</label><input type="date"/></div>
+        <div class="fld"><label>Type of flight</label>
+          <div class="toggle" style="display:flex">
+            <button class="on" type="button" onclick="pick(this)">Local</button>
+            <button type="button" onclick="pick(this)">International</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="seclbl mt">Passengers</div>
+      <table>
+        <thead><tr>
+          <th class="no" style="width:44px">No</th>
+          <th>Name</th><th style="width:16%">Nationality</th><th style="width:10%">Gender</th><th style="width:20%">Passport No.</th>
+          <th class="act"></th>
+        </tr></thead>
+        <tbody id="pax"></tbody>
+      </table>
+      <button class="add-btn" onclick="addPax()">+ Add passenger</button>
+
+      <div class="seclbl mt">Cabin crew</div>
+      <table>
+        <thead><tr>
+          <th class="no" style="width:44px">No</th>
+          <th>Crew name</th><th style="width:34%">Designation</th>
+          <th class="act"></th>
+        </tr></thead>
+        <tbody id="crew"></tbody>
+      </table>
+      <button class="add-btn" onclick="addCrew()">+ Add crew member</button>
+      <div class="cabin-tag">Cabin crew</div>
+    </div>
+  </div>
+
+<script>
+  function pick(b){[...b.parentElement.children].forEach(x=>x.classList.remove('on'));b.classList.add('on');}
+  let pn=0, cn=0;
+  function renumber(tbodyId){[...document.getElementById(tbodyId).children].forEach((tr,i)=>{tr.querySelector('.no').textContent=i+1;});}
+  function addPax(){
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td class="no"></td>
+      <td><input placeholder="Full name"/></td>
+      <td><input placeholder="e.g. Nigerian"/></td>
+      <td><select><option value=""></option><option>M</option><option>F</option></select></td>
+      <td><input class="mono" placeholder="—"/></td>
+      <td class="act"><button class="rm" title="Remove" onclick="this.closest('tr').remove();renumber('pax')">×</button></td>`;
+    document.getElementById('pax').appendChild(tr); renumber('pax');
+  }
+  function addCrew(){
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td class="no"></td>
+      <td><input placeholder="Crew name"/></td>
+      <td><select><option value=""></option><option>Captain</option><option>First Officer</option><option>Cabin crew</option><option>Flight engineer</option></select></td>
+      <td class="act"><button class="rm" title="Remove" onclick="this.closest('tr').remove();renumber('crew')">×</button></td>`;
+    document.getElementById('crew').appendChild(tr); renumber('crew');
+  }
+  // seed a few empty rows so it feels like the paper form
+  for(let i=0;i<5;i++) addPax();
+  for(let i=0;i<2;i++) addCrew();
+</script>
+</body>
+</html>
