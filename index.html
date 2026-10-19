@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Flybird · Compliance Screening — Prototype</title>
+<title>Flybird · Passenger Screening — Prototype</title>
 <!--
   LOOK-AND-FEEL PROTOTYPE ONLY.
   - All data below is FICTIONAL and hard-coded. No API, no network calls, no external communication.
@@ -256,6 +256,37 @@
   .aps-item .d{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-top:2px}
   .aps-item.current{background:var(--cyan-30);box-shadow:inset 2px 0 0 var(--cyan);cursor:default}
   .aps-item.current::after{content:"Current";position:absolute;top:11px;right:10px;font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--deep-70)}
+
+  /* --- role access (prototype) --- */
+  .fb-gate{position:fixed;inset:0;background:var(--deep);z-index:1000;display:none;align-items:center;justify-content:center;padding:24px;overflow:auto}
+  .fb-gate.show{display:flex}
+  .fb-card{background:var(--surface);border-radius:16px;max-width:500px;width:100%;padding:30px;box-shadow:0 20px 60px rgba(0,0,0,.35);margin:auto}
+  .fb-mark{display:flex;align-items:center;gap:11px;margin-bottom:20px}
+  .fb-glyph{width:32px;height:32px;border:1px solid var(--deep);border-radius:7px;display:grid;place-items:center;color:var(--deep);font-family:var(--mono);font-weight:500;font-size:12px}
+  .fb-word{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--deep)}
+  .fb-card h2{font-weight:300;font-size:25px;margin:0 0 6px;color:var(--ink);line-height:1.15}
+  .fb-card p{margin:0 0 18px;font-size:13px;color:var(--muted);line-height:1.5}
+  .fb-roles{display:flex;flex-direction:column;gap:8px}
+  .fb-role{display:flex;align-items:center;justify-content:space-between;gap:12px;text-align:left;width:100%;padding:12px 14px;border:1px solid var(--deep-16);border-radius:10px;background:var(--surface);color:var(--ink);font-family:var(--brand);font-weight:300;cursor:pointer}
+  .fb-role:hover{background:var(--cyan-30);border-color:var(--cyan)}
+  .fb-role .r-n{font-size:14px;font-weight:400}
+  .fb-role .r-d{font-family:var(--mono);font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-top:3px}
+  .fb-role .r-tag{font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:5px;background:var(--deep-08);color:var(--muted);white-space:nowrap;flex:none}
+  .fb-role .r-tag.full{background:var(--cyan);color:var(--deep)}
+  .fb-note{margin-top:16px;font-family:var(--mono);font-size:10.5px;color:var(--muted);line-height:1.5}
+  .fb-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+  .fb-btn{display:inline-block;border:1px solid var(--deep);background:var(--deep);color:var(--cream);padding:10px 17px;border-radius:8px;font-size:13px;font-weight:400;font-family:var(--brand);text-decoration:none;cursor:pointer}
+  .fb-btn.ghost{background:transparent;color:var(--deep);border-color:var(--deep-16)}
+  .fb-btn.ghost:hover{background:var(--deep-08)}
+  .fb-toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);background:var(--deep);color:var(--cream);padding:12px 18px;border-radius:10px;font-size:13px;box-shadow:0 10px 30px rgba(0,17,85,.3);z-index:1100;opacity:0;pointer-events:none;transition:opacity .2s;max-width:90vw;text-align:center}
+  .fb-toast.show{opacity:1}
+  .fb-chip{cursor:pointer}
+  body.no-docs .needs-docs{opacity:.6;border-style:dashed}
+  body.no-docs .needs-docs::after{content:"· restricted";font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;opacity:.85}
+  @media print{
+    body.no-docs > *{display:none!important}
+    body.no-docs::before{content:"Printing and PDF export are restricted for your role.";display:block;padding:40px;font-family:var(--brand);font-size:16px;color:#001155}
+  }
 </style>
 </head>
 <body>
@@ -268,15 +299,15 @@
           <div class="glyph">FB</div>
           <div>
             <div class="name">Flybird</div>
-            <div class="sub">Compliance Screening</div>
+            <div class="sub">Passenger Screening</div>
           </div>
           <button class="aps-toggle" onclick="apsToggle(event)" title="Switch app" aria-label="Switch app"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></button>
         </div>
         <div class="aps-menu" id="aps-menu">
           <div class="aps-head">Flybird apps</div>
-          <div class="aps-item current"><div class="t">KYC Screening</div><div class="d">Compliance Officer</div></div>
-          <a class="aps-item" href="passenger-manifest.html"><div class="t">Passenger Manifest</div><div class="d">OCC · CEO · DMD</div></a>
-          <a class="aps-item" href="oversight-dashboard.html"><div class="t">Oversight Dashboard</div><div class="d">CEO · DMD</div></a>
+          <div class="aps-item current" data-app="kyc"><div class="t">KYC Screening</div><div class="d">Intake &amp; case review</div></div>
+          <a class="aps-item" data-app="man" href="passenger-manifest.html"><div class="t">Passenger Manifest</div><div class="d">Flight manifests</div></a>
+          <a class="aps-item" data-app="od" href="oversight-dashboard.html"><div class="t">Oversight Dashboard</div><div class="d">CEO · DMD · Compliance</div></a>
         </div>
       </div>
       <div class="tape" title="descent profile"><div class="ticks"></div></div>
@@ -296,9 +327,9 @@
         Case History
       </a>
     </nav>
-    <div class="who">
-      <div class="av">CO</div>
-      <div class="txt"><b>C. Officer</b><small>Compliance</small></div>
+    <div class="who fb-chip" onclick="fbSwitchRole()" title="Switch role">
+      <div class="av" id="fb-av">CO</div>
+      <div class="txt"><b id="fb-name">Compliance Officer</b><small>Switch role</small></div>
     </div>
   </aside>
 
@@ -342,7 +373,7 @@
             <tbody id="queue-body"></tbody>
           </table>
         </div>
-        <div class="foot-disc">// prototype . demodata only </div>
+        <div class="foot-disc">// prototype · fictional data · no network calls · not production code</div>
       </div>
     </section>
 
@@ -610,10 +641,10 @@ function renderReview(id){
 
   const dsel = c.status==='clear'?'sel-clear':c.status==='escal'?'sel-escal':c.status==='decline'?'sel-decline':'';
   document.getElementById('review-wrap').innerHTML = `
-    <div class="print-head print-only">FLYBIRD · COMPLIANCE SCREENING — CASE ${c.id}</div>
+    <div class="print-head print-only">FLYBIRD · PASSENGER SCREENING — CASE ${c.id}</div>
     <div class="rev-actions">
       <button class="btn ghost" data-go="dashboard">← Back to queue</button>
-      <button class="btn" onclick="window.print()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>Download PDF</button>
+      <button class="btn needs-docs" onclick="fbPrint()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>Download PDF</button>
     </div>
     <div class="rev-head">
       <div>
@@ -703,6 +734,75 @@ renderQueue(); renderHistory();
 
 function apsToggle(e){e.stopPropagation();var m=document.getElementById('aps-menu');if(m)m.classList.toggle('open');}
 document.addEventListener('click',function(){var m=document.getElementById('aps-menu');if(m)m.classList.remove('open');});
+</script>
+<div class="fb-gate show" id="fb-gate" role="dialog" aria-modal="true" aria-label="Choose your role"></div>
+<div class="fb-toast" id="fb-toast" role="status" aria-live="polite"></div>
+<script>
+/* Role access — PROTOTYPE ONLY. Runs in the browser, so it demonstrates the rules but does not secure anything.
+   In production, roles and permissions are enforced server-side on every route and download. */
+(function(){
+  var ROLES={
+    ceo:{label:'CEO',ini:'CE',apps:['kyc','man','od'],docs:true},
+    dmd:{label:'DMD',ini:'DM',apps:['kyc','man','od'],docs:true},
+    co:{label:'Compliance Officer',ini:'CO',apps:['kyc','man','od'],docs:true},
+    sales:{label:'Sales',ini:'SA',apps:['kyc','man'],docs:false},
+    occ:{label:'OCC',ini:'OC',apps:['kyc','man'],docs:false}
+  };
+  var ORDER=['ceo','dmd','co','sales','occ'];
+  var NAMES={kyc:'KYC Screening',man:'Passenger Manifest',od:'Oversight Dashboard'};
+  var APP='kyc', KEY='fb_role', mem=null;
+  function get(){try{return sessionStorage.getItem(KEY)}catch(e){return mem}}
+  function set(v){mem=v;try{sessionStorage.setItem(KEY,v)}catch(e){}}
+  function $(id){return document.getElementById(id)}
+  function show(html){var g=$('fb-gate');g.innerHTML=html;g.classList.add('show');document.documentElement.style.overflow='hidden'}
+  function hide(){$('fb-gate').classList.remove('show');document.documentElement.style.overflow=''}
+  function mark(){return '<div class="fb-mark"><div class="fb-glyph">FB</div><div class="fb-word">Flybird</div></div>'}
+  function list(a){return a.length<2?a.join(''):a.slice(0,-1).join(', ')+' and '+a[a.length-1]}
+  function picker(){
+    var cur=ROLES[get()], canClose=cur&&cur.apps.indexOf(APP)>=0;
+    var rows=ORDER.map(function(k){
+      var r=ROLES[k], full=r.apps.length===3;
+      return '<button class="fb-role" onclick="fbPick(\''+k+'\')"><span><div class="r-n">'+r.label+'</div>'+
+        '<div class="r-d">'+(full?'All apps':'All apps except Oversight')+' · '+(r.docs?'download &amp; upload':'no download / upload')+'</div></span>'+
+        '<span class="r-tag'+(full?' full':'')+'">'+(full?'Full access':'Restricted')+'</span></button>';
+    }).join('');
+    show('<div class="fb-card">'+mark()+'<h2>Choose a role</h2>'+
+      '<p>Prototype sign-in. Pick who you are to preview what that person can open and do. There are no passwords yet.</p>'+
+      '<div class="fb-roles">'+rows+'</div>'+
+      (canClose?'<div class="fb-actions"><button class="fb-btn ghost" onclick="fbClose()">Cancel</button></div>':'')+
+      '<div class="fb-note">Demo only: this runs in your browser and does not secure anything. Real access control is enforced on the server.</div></div>');
+  }
+  function restricted(r){
+    var who=ORDER.filter(function(k){return ROLES[k].apps.indexOf(APP)>=0}).map(function(k){return ROLES[k].label});
+    show('<div class="fb-card">'+mark()+'<h2>Access restricted</h2>'+
+      '<p>The '+NAMES[APP]+' is available to the '+list(who)+'. You are signed in as <b style="font-weight:500">'+r.label+'</b>.</p>'+
+      '<div class="fb-actions"><a class="fb-btn" href="index.html">Back to KYC Screening</a>'+
+      '<button class="fb-btn ghost" onclick="fbSwitchRole()">Switch role</button></div></div>');
+  }
+  function apply(){
+    var r=ROLES[get()];
+    if(!r){document.body.classList.add('no-docs');picker();return}
+    document.body.classList.toggle('no-docs',!r.docs);
+    var items=document.querySelectorAll('.aps-item[data-app]');
+    for(var i=0;i<items.length;i++){items[i].style.display=r.apps.indexOf(items[i].getAttribute('data-app'))<0?'none':''}
+    var t=$('fb-chip-t'); if(t)t.textContent=r.label;
+    var n=$('fb-name'); if(n)n.textContent=r.label;
+    var a=$('fb-av'); if(a)a.textContent=r.ini;
+    if(r.apps.indexOf(APP)<0){restricted(r);return}
+    hide();
+  }
+  window.fbPick=function(k){set(k);apply()};
+  window.fbSwitchRole=function(){picker()};
+  window.fbClose=function(){hide()};
+  window.fbCan=function(p){var r=ROLES[get()];return !!(r&&r[p])};
+  var tt;
+  window.fbToast=function(m){var e=$('fb-toast');e.textContent=m;e.classList.add('show');clearTimeout(tt);tt=setTimeout(function(){e.classList.remove('show')},3200)};
+  window.fbPrint=function(){
+    if(!window.fbCan('docs')){window.fbToast('Downloading PDFs is restricted to the CEO, DMD and Compliance Officer.');return}
+    window.print();
+  };
+  apply();
+})();
 </script>
 </body>
 </html>
